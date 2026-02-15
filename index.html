@@ -4,67 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>点击得分小游戏</title>
-    <!-- Monetag 广告代码（核心，保留） -->
+    <!-- Monetag 核心广告脚本 -->
     <script type="text/javascript" src="//monetag.org/sw.js" async></script>
     <style>
-        /* 游戏样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
             display: flex;
             flex-direction: column;
             align-items: center;
             background-color: #f0f8ff;
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            /* 给底部广告留出空间 */
-            padding-bottom: 120px;
             min-height: 100vh;
-            box-sizing: border-box;
+            padding: 20px;
+            /* 给底部广告留足空间 */
+            padding-bottom: 120px;
         }
         #score-display {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
-            margin-bottom: 20px;
+            margin: 30px 0;
             color: #333;
         }
         #click-button {
-            width: 150px;
-            height: 150px;
-            font-size: 20px;
+            width: 180px;
+            height: 180px;
+            font-size: 24px;
             background-color: #4CAF50;
             color: white;
             border: none;
             border-radius: 50%;
             cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
             transition: transform 0.1s;
         }
         #click-button:active {
             transform: scale(0.95);
         }
         #reset-button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
+            margin-top: 25px;
+            padding: 12px 30px;
+            font-size: 18px;
             background-color: #f44336;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
         }
-        /* 新增：底部横幅广告容器（用户可直接点击） */
-        #ad-container {
+        /* 移动端专属横幅广告容器（320x100 官方标准尺寸） */
+        #ad-banner {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
             height: 100px;
-            background-color: #fff;
+            background: #fff;
             border-top: 1px solid #eee;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 9999; /* 确保广告在最上层，不被遮挡 */
+            z-index: 9999;
+            /* 适配广告加载 */
+            overflow: hidden;
         }
     </style>
 </head>
@@ -73,29 +77,38 @@
     <button id="click-button">点击加分</button>
     <button id="reset-button">重置得分</button>
 
-    <!-- 新增：广告展示容器，广告会自动加载到这里 -->
-    <div id="ad-container">
-        <span style="color: #999;">广告加载中...</span>
+    <!-- 320x100 移动端横幅广告位（核心可点击区域） -->
+    <div id="ad-banner">
+        <!-- Monetag 广告自动加载到这里 -->
+        <iframe width="320" height="100" frameborder="0" 
+                src="//monetag.org/ads/320x100.html" 
+                style="width:100%;height:100%;border:none;"></iframe>
     </div>
 
     <script>
-        // 游戏核心逻辑
+        // 游戏核心逻辑（保留你的原有功能）
         let score = 0;
         const scoreDisplay = document.getElementById('score-display');
         const clickButton = document.getElementById('click-button');
         const resetButton = document.getElementById('reset-button');
 
-        // 点击加分
         clickButton.addEventListener('click', () => {
             score++;
             scoreDisplay.textContent = `得分: ${score}`;
         });
 
-        // 重置得分
         resetButton.addEventListener('click', () => {
             score = 0;
             scoreDisplay.textContent = `得分: ${score}`;
         });
+
+        // 广告加载优化：页面加载完成后主动触发广告请求
+        window.onload = function() {
+            setTimeout(() => {
+                const adFrame = document.querySelector('#ad-banner iframe');
+                if (adFrame) adFrame.src = adFrame.src; // 刷新广告iframe确保加载
+            }, 2000);
+        };
     </script>
 </body>
 </html>
