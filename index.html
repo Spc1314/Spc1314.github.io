@@ -1,11 +1,9 @@
-
- 
-<头>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
     <meta charset="UTF-8">
     <title>点击得分小游戏</title>
-    
-    
-    <样式>
+    <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             display: flex; flex-direction: column; align-items: center;
@@ -26,49 +24,47 @@
         }
         #ad-container {
             position: fixed; bottom: 0; left: 0; width: 100%;
-            背景: #fff; 上边框: 1px 实线 #eee;
-            显示：弹性布局；对齐项目：居中；对齐内容：居中;
-            z轴索引：9999;
+            background: #fff; border-top: 1px solid #eee;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 9999;
         }
-    </样式>
-</头>
-<身体>
+    </style>
+</head>
+<body>
     <div id="score-display">得分：0</div>
-    <按钮 id="点击按钮">点击加分</按钮>
-    < 
+    <button id="click-button">点击加分</button>
+    <button id="reset-button">重置得分</button>
 
-    <!小插图横幅广告（暂时缺失，以后可添加） -->
-    < 
-        < 
-    </
+    <!-- 广告容器（以后可放其他广告） -->
+    <div id="ad-container">
+        <span style="color:#999;">广告位</span>
+    </div>
 
-    <
-        // // 游戏核心逻辑
-         
-         
-        点击按钮 = 文档.通过ID获取元素('点击按钮');
-        常量 重置按钮 = 文档.通过ID获取元素('重置按钮');
+    <script>
+        let score = 0;
+        const scoreDisplay = document.getElementById('score-display');
+        const clickButton = document.getElementById('click-button');
+        const resetButton = document.getElementById('reset-button');
 
-        点击按钮.添加事件监听器('点击', () => {
-            得分++;
-            scoreDisplay.textContent = 得分：${score};
-            显示弹出广告();  // 调用弹出广告函数
+        clickButton.addEventListener('click', () => {
+            score++;
+            scoreDisplay.textContent = `得分：${score}`;
+            showPopupAd();
         });
 
-        重置按钮.添加事件监听器('点击', () => {
-            得分 = 0;
-            scoreDisplay.textContent = 得分：${score};
+        resetButton.addEventListener('click', () => {
+            score = 0;
+            scoreDisplay.textContent = `得分：${score}`;
         });
 
-        // 弹出窗口广告函数（你从第四行复制的代码）
-        函数 显示弹出广告() {
-            变量 脚本 = 文档.createElement('脚本');
-            脚本.源 = 'https://quge5.com/88/tag.min.js';
-            脚本.setAttribute('data-zone', '211354');
-            脚本.异步 = 真;
-            脚本.setAttribute('data-cfasync', 'false');
-            文档.主体.appendChild(脚本);
+        function showPopupAd() {
+            var script = document.createElement('script');
+            script.src = 'https://quge5.com/88/tag.min.js';
+            script.setAttribute('data-zone', '211354');
+            script.async = true;
+            script.setAttribute('data-cfasync', 'false');
+            document.body.appendChild(script);
         }
-    </脚本>
-</身体>
-        </html>
+    </script>
+</body>
+</html>
