@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>点击得分小游戏</title>
+
+    <!-- ========== 推送通知代码（从第一行复制后粘贴在这里） ========== -->
+    <!-- 示例：<script src="https://10612102.monetag.com/xxxxx.js" async></script> -->
+    <!-- 请用你从推送通知区域复制的代码替换上面这行注释 -->
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -35,9 +40,9 @@
     <button id="click-button">点击加分</button>
     <button id="reset-button">重置得分</button>
 
-    <!-- 广告容器（以后可放其他广告） -->
+    <!-- 小插图横幅广告（以后可从第二行复制代码粘贴到这里） -->
     <div id="ad-container">
-        <span style="color:#999;">广告位</span>
+        <span style="color:#999;">广告位（暂无代码）</span>
     </div>
 
     <script>
@@ -49,7 +54,7 @@
         clickButton.addEventListener('click', () => {
             score++;
             scoreDisplay.textContent = `得分：${score}`;
-            showPopupAd();
+            showPopupAd();  // 调用弹出广告
         });
 
         resetButton.addEventListener('click', () => {
@@ -57,13 +62,20 @@
             scoreDisplay.textContent = `得分：${score}`;
         });
 
+        // ========== OnClick Popunder 弹出广告函数 ==========
+        // 等你从第四行复制到代码后，替换下面的函数体
         function showPopupAd() {
+            // 请将你从第四行复制的代码转换成以下格式：
+            /*
             var script = document.createElement('script');
-            script.src = 'https://quge5.com/88/tag.min.js';
-            script.setAttribute('data-zone', '211354');
+            script.src = 'https://新域名.com/新代码.js';
+            script.setAttribute('data-zone', '新数字');
             script.async = true;
             script.setAttribute('data-cfasync', 'false');
             document.body.appendChild(script);
+            */
+            // 如果你复制的代码已经是这种格式，直接粘贴在这里即可。
+            console.log('弹出广告代码未配置'); // 暂时无广告，可删除
         }
     </script>
 </body>
