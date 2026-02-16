@@ -4,80 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>点击得分小游戏</title>
-    <!-- Monetag 官方多标签广告脚本（自动加载广告） -->
-    <script type="text/javascript" src="//monetag.org/sw.js" async></script>
+    <!-- 推送通知广告代码 -->
+    <script type="text/javascript" src="https://你的区域ID.monetag.com/push.js" async></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* 你的原有样式保持不变，可以适当调整底部广告高度 */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #f0f8ff;
-            font-family: Arial, sans-serif;
-            min-height: 100vh;
-            padding: 20px;
-            padding-bottom: 120px; /* 给广告留位置 */
+            display: flex; flex-direction: column; align-items: center;
+            background-color: #f0f8ff; font-family: Arial, sans-serif;
+            min-height: 100vh; padding: 20px; padding-bottom: 120px;
         }
-        #score-display {
-            font-size: 28px;
-            font-weight: bold;
-            margin: 30px 0;
-            color: #333;
-        }
+        #score-display { font-size: 28px; font-weight: bold; margin: 30px 0; color: #333; }
         #click-button {
-            width: 180px;
-            height: 180px;
-            font-size: 24px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-            transition: transform 0.1s;
+            width: 180px; height: 180px; font-size: 24px; background-color: #4CAF50;
+            color: white; border: none; border-radius: 50%; cursor: pointer;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2); transition: transform 0.1s;
         }
-        #click-button:active {
-            transform: scale(0.95);
-        }
+        #click-button:active { transform: scale(0.95); }
         #reset-button {
-            margin-top: 25px;
-            padding: 12px 30px;
-            font-size: 18px;
-            background-color: #f44336;
-            color: white;
-            border: none;
-            border-radius: 8px;
+            margin-top: 25px; padding: 12px 30px; font-size: 18px;
+            background-color: #f44336; color: white; border: none; border-radius: 8px;
             cursor: pointer;
         }
-        /* 底部广告容器，广告会自动加载到这里 */
+        /* 底部广告容器（可根据实际代码调整） */
         #ad-container {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100px;
-            background: #fff;
-            border-top: 1px solid #eee;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: #fff; border-top: 1px solid #eee;
+            display: flex; align-items: center; justify-content: center;
             z-index: 9999;
         }
     </style>
 </head>
 <body>
-    <div id="score-display">得分: 0</div>
+    <div id="score-display">得分：0</div>
     <button id="click-button">点击加分</button>
     <button id="reset-button">重置得分</button>
 
-    <!-- 广告容器，广告会自动填充 -->
+    <!-- 小插图横幅广告（替换原来的广告容器内容） -->
     <div id="ad-container">
-        <span style="color: #999;">广告加载中...</span>
+        <!-- 这里直接放置 Monetag 提供的小插图横幅代码（包含容器和脚本） -->
+        <div id="monetag-banner" style="width: 100%; height: 100px;"></div>
+        <script type="text/javascript">
+            // 从 Monetag 后台复制的横幅初始化代码
+            (function() {
+                // 例如: window.monetagBanner = ...;
+            })();
+        </script>
     </div>
+
+    <!-- 页面内滚动广告（如果需要，可以在其他位置添加，例如游戏下方） -->
+    <!-- 如果不需要，可以省略 -->
 
     <script>
         // 游戏核心逻辑
@@ -86,15 +62,32 @@
         const clickButton = document.getElementById('click-button');
         const resetButton = document.getElementById('reset-button');
 
+        // 点击加分按钮：同时加分数并触发弹出广告
         clickButton.addEventListener('click', () => {
             score++;
-            scoreDisplay.textContent = `得分: ${score}`;
+            scoreDisplay.textContent = `得分：${score}`;
+            // 调用弹出广告函数
+            if (typeof showPopupAd === 'function') {
+                showPopupAd();
+            }
         });
 
         resetButton.addEventListener('click', () => {
             score = 0;
-            scoreDisplay.textContent = `得分: ${score}`;
+            scoreDisplay.textContent = `得分：${score}`;
         });
+
+        // 定义弹出广告函数（从 Monetag 后台复制）
+        function showPopupAd() {
+            // 粘贴 Monetag 提供的点击弹出窗口代码
+            (function() {
+                var script = document.createElement('script');
+                script.src = 'https://你的区域ID.monetag.com/pop.js'; // 替换为真实地址
+                document.body.appendChild(script);
+            })();
+        }
     </script>
+
+    <!-- 如果 Monetag 有要求放在页面底部的全局代码，可以放在这里 -->
 </body>
 </html>
