@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>点击得分小游戏</title>
     
-    <!-- ===== 推送通知注册脚本（暂时缺失，如果你以后能进入第一行，复制那段<script>粘贴在这里） ===== -->
+    <!-- 推送通知注册脚本（暂时缺失，等你能进入第一行后复制粘贴到这里） -->
     <!-- 例如：<script src="https://10612102.monetag.com/xxxxx.js" async></script> -->
 
     <style>
@@ -52,7 +52,6 @@
         const clickButton = document.getElementById('click-button');
         const resetButton = document.getElementById('reset-button');
 
-        // 点击加分：分数+1，并触发弹出广告
         clickButton.addEventListener('click', () => {
             score++;
             scoreDisplay.textContent = `得分：${score}`;
@@ -64,9 +63,8 @@
             scoreDisplay.textContent = `得分：${score}`;
         });
 
-        // 弹出窗口广告函数（动态加载你提供的脚本）
+        // 弹出窗口广告函数（你从第四行复制的代码）
         function showPopupAd() {
-            // 你从第四行复制的代码（已处理为动态加载，防止立即弹出）
             var script = document.createElement('script');
             script.src = 'https://quge5.com/88/tag.min.js';
             script.setAttribute('data-zone', '211354');
@@ -75,7 +73,5 @@
             document.body.appendChild(script);
         }
     </script>
-
-    <!-- 页面内滚动广告（以后可添加） -->
 </body>
 </html>
