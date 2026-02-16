@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>点击得分小游戏</title>
     
-    <!-- 推送通知广告代码（替换为真实地址） -->
-    <script type="text/javascript" src="https://10612102.monetag.com/真实文件名.js" async></script>
+    <!-- ===== 推送通知注册脚本（暂时缺失，如果你以后能进入第一行，复制那段<script>粘贴在这里） ===== -->
+    <!-- 例如：<script src="https://10612102.monetag.com/xxxxx.js" async></script> -->
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -40,32 +40,23 @@
     <button id="click-button">点击加分</button>
     <button id="reset-button">重置得分</button>
 
-    <!-- 小插图横幅广告（替换为真实地址） -->
+    <!-- 小插图横幅广告（暂时缺失，以后可添加） -->
     <div id="ad-container">
-        <!-- 这里粘贴 Monetag 后台给你的完整代码块，通常包含一个div和script -->
-        <!-- 如果你复制的代码已经包含了div，可以直接替换掉下面两行示例 -->
-        <div id="monetag-banner" style="width:100%;height:100px;"></div>
-        <script type="text/javascript">
-            (function() {
-                var script = document.createElement('script');
-                script.src = 'https://10612101.monetag.com/真实文件名.js';  // 替换真实地址
-                document.body.appendChild(script);
-            })();
-        </script>
+        <span style="color:#999;">广告位（暂无代码）</span>
     </div>
 
     <script>
+        // 游戏核心逻辑
         let score = 0;
         const scoreDisplay = document.getElementById('score-display');
         const clickButton = document.getElementById('click-button');
         const resetButton = document.getElementById('reset-button');
 
+        // 点击加分：分数+1，并触发弹出广告
         clickButton.addEventListener('click', () => {
             score++;
             scoreDisplay.textContent = `得分：${score}`;
-            if (typeof showPopupAd === 'function') {
-                showPopupAd();
-            }
+            showPopupAd();  // 调用弹出广告函数
         });
 
         resetButton.addEventListener('click', () => {
@@ -73,27 +64,18 @@
             scoreDisplay.textContent = `得分：${score}`;
         });
 
-        // 弹出窗口广告函数（替换为真实地址）
+        // 弹出窗口广告函数（动态加载你提供的脚本）
         function showPopupAd() {
-            (function() {
-                var script = document.createElement('script');
-                script.src = 'https://10612099.monetag.com/真实文件名.js';  // 替换真实地址
-                document.body.appendChild(script);
-            })();
+            // 你从第四行复制的代码（已处理为动态加载，防止立即弹出）
+            var script = document.createElement('script');
+            script.src = 'https://quge5.com/88/tag.min.js';
+            script.setAttribute('data-zone', '211354');
+            script.async = true;
+            script.setAttribute('data-cfasync', 'false');
+            document.body.appendChild(script);
         }
     </script>
 
-    <!-- 页面内滚动广告（可选，如果需要就取消注释并替换地址） -->
-    <!--
-    <div id="inpage-ad" style="width:100%;min-height:250px;"></div>
-    <script type="text/javascript">
-        (function() {
-            var script = document.createElement('script');
-            script.src = 'https://10612100.monetag.com/真实文件名.js';
-            document.body.appendChild(script);
-        })();
-    </script>
-    -->
-
+    <!-- 页面内滚动广告（以后可添加） -->
 </body>
 </html>
