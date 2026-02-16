@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <title>点击得分小游戏</title>
 
-    <!-- ========== 推送通知代码（从第一行复制后粘贴在这里） ========== -->
-    <!-- 示例：<script src="https://10612102.monetag.com/xxxxx.js" async></script> -->
-    <!-- 请用你从推送通知区域复制的代码替换上面这行注释 -->
+    <!-- ========== 推送通知代码（请务必替换为 Monetag 后台给你的真实代码） ========== -->
+    <!-- 在推送通知区域的代码页面，第二步有类似下面的 <script> 标签，请复制替换这一行 -->
+    <!-- 示例：<script src="https://10612102.monetag.com/abcd1234.js" async></script> -->
+    <script src="https://10612102.monetag.com/你的真实文件名.js" async></script>
+    <!-- ↑↑↑ 上面这一行必须替换成你从推送通知区域复制的真实代码，否则推送通知不会工作 ↑↑↑ -->
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -40,7 +42,7 @@
     <button id="click-button">点击加分</button>
     <button id="reset-button">重置得分</button>
 
-    <!-- 小插图横幅广告（以后可从第二行复制代码粘贴到这里） -->
+    <!-- 小插图横幅广告（以后可以从第二行复制代码粘贴到这里） -->
     <div id="ad-container">
         <span style="color:#999;">广告位（暂无代码）</span>
     </div>
@@ -63,7 +65,7 @@
         });
 
         // ========== OnClick Popunder 弹出广告函数 ==========
-        // 等你从第四行复制到代码后，替换下面的函数体
+        // 等你从第四行复制到真正的代码后，替换下面的函数体
         function showPopupAd() {
             // 请将你从第四行复制的代码转换成以下格式：
             /*
