@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>点击得分小游戏</title>
-    <!-- 推送通知广告代码 -->
-    <script type="text/javascript" src="https://你的区域ID.monetag.com/push.js" async></script>
+    <!-- 1. 推送通知广告代码（从 Monetag 后台复制） -->
+    <script type="text/javascript" src="https://区域ID.monetag.com/推送代码.js" async></script>
     <style>
-        /* 你的原有样式保持不变，可以适当调整底部广告高度 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             display: flex; flex-direction: column; align-items: center;
@@ -26,7 +25,6 @@
             background-color: #f44336; color: white; border: none; border-radius: 8px;
             cursor: pointer;
         }
-        /* 底部广告容器（可根据实际代码调整） */
         #ad-container {
             position: fixed; bottom: 0; left: 0; width: 100%;
             background: #fff; border-top: 1px solid #eee;
@@ -40,21 +38,21 @@
     <button id="click-button">点击加分</button>
     <button id="reset-button">重置得分</button>
 
-    <!-- 小插图横幅广告（替换原来的广告容器内容） -->
+    <!-- 2. 小插图横幅广告代码（从 Monetag 后台复制，直接粘贴到这里） -->
     <div id="ad-container">
-        <!-- 这里直接放置 Monetag 提供的小插图横幅代码（包含容器和脚本） -->
+        <!-- 将 Monetag 提供的小插图横幅代码完整粘贴在此处 -->
         <div id="monetag-banner" style="width: 100%; height: 100px;"></div>
         <script type="text/javascript">
-            // 从 Monetag 后台复制的横幅初始化代码
             (function() {
-                // 例如: window.monetagBanner = ...;
+                // 这里粘贴 Monetag 生成的初始化代码（不要修改）
+                var script = document.createElement('script');
+                script.src = 'https://区域ID.monetag.com/横幅代码.js';
+                document.body.appendChild(script);
             })();
         </script>
     </div>
 
-    <!-- 页面内滚动广告（如果需要，可以在其他位置添加，例如游戏下方） -->
-    <!-- 如果不需要，可以省略 -->
-
+    <!-- 3. 游戏逻辑和弹出广告函数 -->
     <script>
         // 游戏核心逻辑
         let score = 0;
@@ -62,7 +60,7 @@
         const clickButton = document.getElementById('click-button');
         const resetButton = document.getElementById('reset-button');
 
-        // 点击加分按钮：同时加分数并触发弹出广告
+        // 点击加分按钮：同时加分并触发弹出广告
         clickButton.addEventListener('click', () => {
             score++;
             scoreDisplay.textContent = `得分：${score}`;
@@ -79,15 +77,13 @@
 
         // 定义弹出广告函数（从 Monetag 后台复制）
         function showPopupAd() {
-            // 粘贴 Monetag 提供的点击弹出窗口代码
+            // 将 Monetag 提供的点击弹出窗口代码粘贴在这里
             (function() {
                 var script = document.createElement('script');
-                script.src = 'https://你的区域ID.monetag.com/pop.js'; // 替换为真实地址
+                script.src = 'https://区域ID.monetag.com/弹出代码.js';
                 document.body.appendChild(script);
             })();
         }
     </script>
-
-    <!-- 如果 Monetag 有要求放在页面底部的全局代码，可以放在这里 -->
 </body>
 </html>
