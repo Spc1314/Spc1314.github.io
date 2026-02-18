@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>合成大西瓜</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; }
+        body {
+            background: #fbe79d;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            touch-action: none;
+            padding-bottom: 70px;
+        }
+        #gameCanvas {
+            width: 100%;
+            max-width: 400px;
+            height: 600px;
+            background: #f5d76e;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            display: block;
+        }
+        #score {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            background: rgba(255,255,255,0.8);
+            padding: 8px 20px;
+            border-radius: 30px;
+            z-index: 100;
+        }
+        #gameOver {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            display: none;
+            z-index: 200;
+        }
+        #gameOver button {
+            margin-top: 20px;
+            padding: 10px 30px;
+            font-size: 18px;
+            background: #f5d76e;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+        #ad-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: #f5f5f5;
+            text-align: center;
+            line-height: 60px;
+            font-size: 14px;
+            color: #999;
+            z-index: 10000;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div id="score">分数: 0</div>
+    <canvas id="gameCanvas" width="400" height="600"></canvas>
+    <div id="gameOver">
+        <h2>游戏结束</h2>
+        <p>你的分数: <span id="finalScore">0</span></p>
+        <button onclick="resetGame()">再玩一次</button>
+    </div>
+    <div id="ad-container">
+        广告位（百度审核通过后替换）
+    </div>
+
+    <script>
+        // ==================== 游戏配置 ====================
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreElement = document.getElementById('score');
+        const gameOverDiv = document.getElementById('gameOver');
+        const finalScoreElement = document.getElementById('finalScore');
+
+        const fruits = [
+            { radius: 15, color: '#8bc34a', next: 1 },
+            { radius: 20, color: '#ff9800', next: 2 },
+            { radius: 25, color: '#f44336', next: 3 },
+            { radius: 30, color: '#9c27b0', next: 4 },
+            { radius: 35, color: '#ffc107', next: 5 },
+            { radius: 40, color: '#4caf50', next: 6 },
+            { radius: 45, color: '#e91e63', next: 7 },
+            { radius: 50, color: '#2196f3', next: 8 },
+            { radius: 55, color: '#795548', next: 9 },
+            { radius: 60, color: '#607d8b', next: 10 },
+            { radius: 65, color: '#388e3c', next: -1 }
+        ];
+
+        const gravity = 0.3;
+        const wallLeft = 30;
+        const wallRight = 370;
+        const ground = 550;
+
+        let score = 0;
+        let gameActive = true;
+        let fruitsList = [];
+
+        let currentFruit = {
+            x: 200,
+            y: 100,
+            vx: 0,
+            vy: 0,
+            type: 0,
+            radius: fruits[0].radius,
+            color: fruits[0].color
+        };
+
+        // ==================== 游戏逻辑 ====================
+        function checkCollisions() {
+            for (let i = 0; i < fruitsList.length; i++) {
+                for (let j = i + 1; j < fruitsList.length; j++) {
+                    const a = fruitsList[i];
+                    const b = fruitsList[j];
+                    const dx = a.x - b.x;
+                    const dy = a.y - b.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    const minDist = a.radius + b.radius;
+
+                    if (distance < minDist) {
+                        if (a.type === b.type && a.type < fruits.length - 1) {
+                            const newType = a.type + 1;
+                            fruitsList.splice(j, 1);
+                            fruitsList.splice(i, 1);
+                            
+                            fruitsList.push({
+                                x: (a.x + b.x) / 2,
+                                y: (a.y + b.y) / 2,
+                                vx: (a.vx + b.vx) / 2,
+                                vy: (a.vy + b.vy) / 2,
+                                type: newType,
+                                radius: fruits[newType].radius,
+                                color: fruits[newType].color
+                            });
+                            
+                            score += (newType + 1) * 10;
+                            scoreElement.textContent = `分数: ${score}`;
+                            
+                            return true;
+                        } else {
+                            const angle = Math.atan2(dy, dx);
+                            const overlap = minDist - distance;
+                            
+                            a.x += Math.cos(angle) * overlap / 2;
+                            a.y += Math.sin(angle) * overlap / 2;
+                            b.x -= Math.cos(angle) * overlap / 2;
+                            b.y -= Math.sin(angle) * overlap / 2;
+                            
+                            const vx1 = a.vx, vy1 = a.vy;
+                            a.vx = b.vx;
+                            a.vy = b.vy;
+                            b.vx = vx1;
+                            b.vy = vy1;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        function update() {
+            if (!gameActive) return;
+
+            for (let fruit of fruitsList) {
+                fruit.vy += gravity;
+                fruit.x += fruit.vx;
+                fruit.y += fruit.vy;
+
+                if (fruit.x - fruit.radius < wallLeft) {
+                    fruit.x = wallLeft + fruit.radius;
+                    fruit.vx = -fruit.vx * 0.5;
+                }
+                if (fruit.x + fruit.radius > wallRight) {
+                    fruit.x = wallRight - fruit.radius;
+                    fruit.vx = -fruit.vx * 0.5;
+                }
+
+                if (fruit.y + fruit.radius > ground) {
+                    fruit.y = ground - fruit.radius;
+                    fruit.vy = -fruit.vy * 0.3;
+                    if (Math.abs(fruit.vy) < 0.5) fruit.vy = 0;
+                }
+
+                if (fruit.y - fruit.radius < 50) {
+                    fruit.y = 50 + fruit.radius;
+                    fruit.vy = -fruit.vy * 0.3;
+                }
+            }
+
+            let collided = true;
+            let maxIter = 10;
+            while (collided && maxIter > 0) {
+                collided = checkCollisions();
+                maxIter--;
+            }
+
+            for (let fruit of fruitsList) {
+                if (fruit.y - fruit.radius < 70) {
+                    gameActive = false;
+                    finalScoreElement.textContent = score;
+                    gameOverDiv.style.display = 'block';
+                    break;
+                }
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.strokeStyle = '#e6c77e';
+            ctx.lineWidth = 1;
+            for (let i = 0; i < canvas.width; i += 20) {
+                ctx.beginPath();
+                ctx.moveTo(i, 0);
+                ctx.lineTo(i, canvas.height);
+                ctx.stroke();
+            }
+            for (let i = 0; i < canvas.height; i += 20) {
+                ctx.beginPath();
+                ctx.moveTo(0, i);
+                ctx.lineTo(canvas.width, i);
+                ctx.stroke();
+            }
+
+            ctx.beginPath();
+            ctx.moveTo(0, ground);
+            ctx.lineTo(canvas.width, ground);
+            ctx.strokeStyle = '#8b5a2b';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            for (let fruit of fruitsList) {
+                ctx.beginPath();
+                ctx.arc(fruit.x, fruit.y, fruit.radius, 0, Math.PI * 2);
+                ctx.fillStyle = fruit.color;
+                ctx.fill();
+                ctx.strokeStyle = '#333';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+
+            ctx.globalAlpha = 0.5;
+            ctx.beginPath();
+            ctx.arc(currentFruit.x, currentFruit.y, currentFruit.radius, 0, Math.PI * 2);
+            ctx.fillStyle = currentFruit.color;
+            ctx.fill();
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.globalAlpha = 1;
+        }
+
+        function gameLoop() {
+            if (gameActive) update();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+
+        function resetGame() {
+            score = 0;
+            gameActive = true;
+            fruitsList = [];
+            currentFruit = {
+                x: 200,
+                y: 100,
+                vx: 0,
+                vy: 0,
+                type: 0,
+                radius: fruits[0].radius,
+                color: fruits[0].color
+            };
+            scoreElement.textContent = '分数: 0';
+            gameOverDiv.style.display = 'none';
+        }
+
+        canvas.addEventListener('click', (e) => {
+            if (!gameActive) return;
+            
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const clickX = (e.clientX - rect.left) * scaleX;
+            
+            currentFruit.x = Math.max(wallLeft + currentFruit.radius, Math.min(wallRight - currentFruit.radius, clickX));
+            
+            fruitsList.push({
+                x: currentFruit.x,
+                y: currentFruit.y,
+                vx: 0,
+                vy: 0,
+                type: currentFruit.type,
+                radius: currentFruit.radius,
+                color: currentFruit.color
+            });
+            
+            const nextType = Math.floor(Math.random() * 3);
+            currentFruit.type = nextType;
+            currentFruit.radius = fruits[nextType].radius;
+            currentFruit.color = fruits[nextType].color;
+        });
+
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            if (!gameActive) return;
+            
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const touchX = (e.touches[0].clientX - rect.left) * scaleX;
+            
+            currentFruit.x = Math.max(wallLeft + currentFruit.radius, Math.min(wallRight - currentFruit.radius, touchX));
+            
+            fruitsList.push({
+                x: currentFruit.x,
+                y: currentFruit.y,
+                vx: 0,
+                vy: 0,
+                type: currentFruit.type,
+                radius: currentFruit.radius,
+                color: currentFruit.color
+            });
+            
+            const nextType = Math.floor(Math.random() * 3);
+            currentFruit.type = nextType;
+            currentFruit.radius = fruits[nextType].radius;
+            currentFruit.color = fruits[nextType].color;
+        });
+
+        gameLoop();
+    </script>
+</body>
+</html>
