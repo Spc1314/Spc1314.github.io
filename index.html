@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <title>点击得分小游戏</title>
 
-    <!-- ===== 推送通知代码（如果你之前从第一行复制过，请替换下面这行） ===== -->
-    <!-- 如果你还没装推送通知，暂时保留这行注释，以后再加 -->
-    <!-- <script src="https://10612102.monetag.com/你的真实文件名.js" async></script> -->
+    <!-- ========== Monetag MultiTag 万能广告代码（已包含所有格式） ========== -->
+    <script src="https://quge5.com/88/tag.min.js" data-zone="211354" async data-cfasync="false"></script>
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -40,12 +39,13 @@
     <button id="click-button">点击加分</button>
     <button id="reset-button">重置得分</button>
 
-    <!-- 广告容器（以后可放横幅广告） -->
+    <!-- 广告容器（Monetag 小插图横幅会自动填充到这里） -->
     <div id="ad-container">
-        <span style="color:#999;">广告位（点击按钮弹出广告）</span>
+        <span style="color:#999;">广告加载中...</span>
     </div>
 
     <script>
+        // 游戏核心逻辑
         let score = 0;
         const scoreDisplay = document.getElementById('score-display');
         const clickButton = document.getElementById('click-button');
@@ -54,23 +54,13 @@
         clickButton.addEventListener('click', () => {
             score++;
             scoreDisplay.textContent = `得分：${score}`;
-            showPopupAd();
+            // 注意：Monetag MultiTag 会自动处理广告，不需要额外调用
         });
 
         resetButton.addEventListener('click', () => {
             score = 0;
             scoreDisplay.textContent = `得分：${score}`;
         });
-
-        // ===== 弹出广告函数（已包含你复制的真实代码） =====
-        function showPopupAd() {
-            var script = document.createElement('script');
-            script.src = 'https://quge5.com/88/tag.min.js';
-            script.setAttribute('data-zone', '211354');
-            script.async = true;
-            script.setAttribute('data-cfasync', 'false');
-            document.body.appendChild(script);
-        }
     </script>
 </body>
 </html>
