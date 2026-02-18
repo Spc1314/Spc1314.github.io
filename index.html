@@ -12,7 +12,7 @@
         body {
             display: flex; flex-direction: column; align-items: center;
             background-color: #f0f8ff; font-family: Arial, sans-serif;
-            min-height: 100vh; padding: 20px; padding-bottom: 120px;
+            min-height: 100vh; padding: 20px;
         }
         #score-display { font-size: 28px; font-weight: bold; margin: 30px 0; color: #333; }
         #click-button {
@@ -26,23 +26,12 @@
             background-color: #f44336; color: white; border: none; border-radius: 8px;
             cursor: pointer;
         }
-        #ad-container {
-            position: fixed; bottom: 0; left: 0; width: 100%;
-            background: #fff; border-top: 1px solid #eee;
-            display: flex; align-items: center; justify-content: center;
-            z-index: 9999;
-        }
     </style>
 </head>
 <body>
     <div id="score-display">得分：0</div>
     <button id="click-button">点击加分</button>
     <button id="reset-button">重置得分</button>
-
-    <!-- 广告容器（Monetag 小插图横幅会自动填充到这里） -->
-    <div id="ad-container">
-        <span style="color:#999;">广告加载中...</span>
-    </div>
 
     <script>
         // 游戏核心逻辑
@@ -54,7 +43,6 @@
         clickButton.addEventListener('click', () => {
             score++;
             scoreDisplay.textContent = `得分：${score}`;
-            // Monetag MultiTag 会自动处理广告，不需要额外调用
         });
 
         resetButton.addEventListener('click', () => {
