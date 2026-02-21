@@ -4,14 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>合成大西瓜</title>
-    <!-- Adsterra Popunder 广告 -->
+
+    <!-- Adsterra Popunder 广告（电脑端弹窗） -->
     <script src="https://pl28744907.effectivegatecpm.com/4a/85/e5/4a85e5b52e6c2d46d04e9aae9d5de1f1.js"></script>
-    <!-- PopAds 弹窗广告 -->
+
+    <!-- PopAds 弹窗广告（电脑端弹窗） -->
     <script type="text/javascript" data-cfasync="false">
         /*<![CDATA[/* */
         (function(){var k=window,d="aa04caaa2a9847ded95801b739a02501",j=[["siteId",921*914+137+4436490],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],u=["d3d3LmNkbjRhZHMuY29tL3VMbWVqL3lpbnRlcmNvb2xlci5taW4uanM=","ZDNnNW92Zm5nanc5YncuY2xvdWRmcm9udC5uZXQvbWtIQS9uTmNPd08va2thcnRvZ3JhcGgubWluLmNzcw=="],a=-1,v,r,l=function(){clearTimeout(r);a++;if(u[a]&&!(1797561720000<(new Date).getTime()&&1<a)){v=k.document.createElement("script");v.type="text/javascript";v.async=!0;var q=k.document.getElementsByTagName("script")[0];v.src="https://"+atob(u[a]);v.crossOrigin="anonymous";v.onerror=l;v.onload=function(){clearTimeout(r);k[d.slice(0,16)+d.slice(0,16)]||l()};r=setTimeout(l,5E3);q.parentNode.insertBefore(v,q)}};if(!k[d]){try{Object.freeze(k[d]=j)}catch(e){}l()}})();
         /*]]>/* */
     </script>
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; }
         body {
@@ -79,7 +82,7 @@
         <button onclick="resetGame()">再玩一次</button>
     </div>
 
-    <!-- Adsterra Native Banner 广告 -->
+    <!-- Adsterra Native Banner 广告（手机端原生横幅） -->
     <script async="async" data-cfasync="false" src="https://pl28744934.effectivegatecpm.com/f815e3ca94d5ca48c9baf1e4937462d6/invoke.js"></script>
     <div id="container-f815e3ca94d5ca48c9baf1e4937462d6"></div>
 
@@ -258,6 +261,7 @@
             requestAnimationFrame(gameLoop);
         }
 
+        // 重置游戏函数，并在其中触发广告
         function resetGame() {
             score = 0;
             gameActive = true;
@@ -273,6 +277,13 @@
             };
             scoreElement.textContent = '分数: 0';
             gameOverDiv.style.display = 'none';
+
+            // ===== 触发弹窗广告（点击“再玩一次”时弹出）=====
+            // 使用 setTimeout 确保弹窗不被浏览器误判为自动弹窗
+            setTimeout(function() {
+                // 打开一个空白窗口，PopAds 会自动拦截并显示广告
+                window.open('about:blank', '_blank');
+            }, 100);
         }
 
         canvas.addEventListener('click', (e) => {
@@ -321,7 +332,7 @@
         gameLoop();
     </script>
 
-    <!-- Adsterra Social Bar 广告 -->
+    <!-- Adsterra Social Bar 广告（手机底部悬浮条） -->
     <script src="https://pl28744600.effectivegatecpm.com/04/18/29/041829d853148c6302a0e74ae7b503cb.js"></script>
 </body>
 </html>
