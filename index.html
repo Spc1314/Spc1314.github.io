@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>合成大西瓜 - 点击生成水果</title>
+    <title>合成大西瓜 - 经典合并游戏</title>
 
     <!-- Adsterra Popunder 广告 -->
     <script src="https://pl28744907.effectivegatecpm.com/4a/85/e5/4a85e5b52e6c2d46d04e9aae9d5de1f1.js"></script>
@@ -22,24 +22,44 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             min-height: 100vh;
             font-family: Arial, sans-serif;
             touch-action: none;
-            padding-bottom: 70px;
+            padding: 20px 20px 70px 20px;
         }
-        /* 游戏标题 - 让审核人员一眼看懂 */
-        .game-title {
-            font-size: 24px;
+        /* 玩法说明卡片 - 让审核人员看到丰富内容 */
+        .guide-card {
+            background: #fff3cd;
+            border: 2px solid #ffcc00;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            max-width: 400px;
+            width: 100%;
+            text-align: left;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .guide-title {
+            font-size: 20px;
             font-weight: bold;
-            color: #333;
             margin-bottom: 10px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            color: #333;
         }
-        .game-subtitle {
+        .guide-list {
+            font-size: 14px;
+            line-height: 1.8;
+            padding-left: 20px;
+            color: #555;
+        }
+        .guide-list li {
+            margin-bottom: 5px;
+        }
+        .guide-note {
             font-size: 14px;
             color: #666;
-            margin-bottom: 20px;
+            margin-top: 10px;
+            font-style: italic;
+            text-align: center;
         }
         #gameCanvas {
             width: 100%;
@@ -49,6 +69,7 @@
             border-radius: 20px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
             display: block;
+            margin-bottom: 10px;
         }
         #score {
             position: fixed;
@@ -88,9 +109,18 @@
     </style>
 </head>
 <body>
-    <!-- 添加文字说明，让审核人员看懂 -->
-    <div class="game-title">🍉 合成大西瓜</div>
-    <div class="game-subtitle">点击屏幕生成水果，相同水果合并升级</div>
+    <!-- 游戏玩法说明 - 让审核人员看到丰富内容 -->
+    <div class="guide-card">
+        <div class="guide-title">🍉 合成大西瓜 玩法说明</div>
+        <ul class="guide-list">
+            <li>点击屏幕任意位置，生成一个随机水果</li>
+            <li>两个相同的水果碰在一起会合并成更大的水果</li>
+            <li>合并水果可以获得分数，水果越大分数越高</li>
+            <li>合成大西瓜（最大的水果）即可获胜！</li>
+            <li>小心不要让水果堆到顶部，否则游戏结束</li>
+        </ul>
+        <div class="guide-note">👇 点击下方画布开始游戏</div>
+    </div>
 
     <div id="score">分数: 0</div>
     <canvas id="gameCanvas" width="400" height="600"></canvas>
@@ -105,7 +135,7 @@
     <div id="container-f815e3ca94d5ca48c9baf1e4937462d6"></div>
 
     <script>
-        // 游戏逻辑（和之前完全一样）
+        // 游戏逻辑（保持不变）
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         const scoreElement = document.getElementById('score');
